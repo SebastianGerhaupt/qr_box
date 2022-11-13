@@ -709,9 +709,9 @@ function encodeNumeric(input){
 	let binaries=[];
 
 	// The binary representation of the triples will be stored inside the array.
-	// Binaries representing triples of three digits will be convertet to a group of ten bits.
-	// Binaries representing triples of two digits will be convertet to a group of seven bits.
-	// Binaries representing triples of one digit will be convertet to a group of four bits.
+	// Binaries representing triples of three digits will be converted to a group of ten bits.
+	// Binaries representing triples of two digits will be converted to a group of seven bits.
+	// Binaries representing triples of one digit will be converted to a group of four bits.
 	// Leading zeros of triples will be ignored except a triple consists of one single zero.
 	for(let i=0; i<triples.length; i++){
 		binaries.push(parseInt(triples[i]).toString(2));
@@ -736,9 +736,9 @@ function encodeAlphanumeric(input){
 
 	// For each pair of characters a number will be calculated.
 	// If the last pair consists of just one character, the calculation of this pair is different.
-	// The calculated number will be convertet to binary.
-	// The binaries will be convertet to groups of eleven bits.
-	// Binaries representing a pair containing just one character will be convertet to a group of six bits.
+	// The calculated number will be converted to binary.
+	// The binaries will be converted to groups of eleven bits.
+	// Binaries representing a pair containing just one character will be converted to a group of six bits.
 	if(input.length%2==0){
 		for(let i=0; i<tuples.length; i++){
 			let number=0;
@@ -777,7 +777,7 @@ function encodeByte(input){
 	let binaries=[];
 
 	// The hexadecimal representation of the characters will be converted to binary.
-	// The binaries will be convertet to groups of eight bits.
+	// The binaries will be converted to groups of eight bits.
 	for(let i=0; i<input.length; i++) binaries.push(parseInt("0x"+input.charCodeAt(i).toString(16), 16).toString(2).padStart(8, "0"));
 
 	// The groups of bits will be concatinated to the encoded string and returned.
@@ -1195,7 +1195,7 @@ function generateInterleavedBinaries(interleavedDataCodewords, interleavedErrorC
 	// The interleaved data codewords will be concatinated to a string.
 	let interleavedBinaries=interleavedDataCodewords.join("");
 
-	// The interleaved error correction codewords will be convertet to binaries and concatinated to a string.
+	// The interleaved error correction codewords will be converted to binaries and concatinated to a string.
 	for(let i=0; i<interleavedErrorCodewords.length; i++) interleavedBinaries+=interleavedErrorCodewords[i].toString(2).padStart(8, "0");
 
 	// The interleaved binary codewords will be returned.
