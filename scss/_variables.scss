@@ -1,0 +1,99 @@
+// debugging
+$debug: true;
+
+// colors
+//https://mycolor.space/
+$main_color: rgb(230, 96, 0);
+$generic_gradient_1: rgb(255, 149, 0);
+$generic_gradient_2: rgb(255, 203, 0);
+$generic_gradient_3: rgb(119, 79, 143);
+$generic_gradient_4: rgb(63, 81, 124);
+$generic_gradient_5: rgb(47, 72, 88);
+$grey: rgb(222, 222, 222);
+$white: rgb(255, 255, 255);
+$black: rgb(0, 0, 0);
+
+// resets
+$margin_reset: 0;
+
+// defaults
+$border_radius_default: .25rem;
+$border_width_default: 1px;
+$box_sizing_default: border-box;
+
+// _grid
+$grid_gutter_width: 1.5rem;
+$column_count: 12;
+$phi: 1.61803;//ToDo: $phi: (1 + sqrt(5)) / 2;
+$major: 100% / $phi;
+$minor: 100% - $major;
+
+// _forms
+$input_description_margin_bottom: .5rem;
+$input_description_margin_top: 2rem;
+$input_border_color: $grey;
+$input_border_radius: 5px;
+$input_border_width: $border_width_default;
+$input_font_size: 1rem;
+$floating_input_label_font_size: $input_font_size * .7;
+$input_line_height: 1.5;
+$input_padding_x: 7px;
+$input_padding_y: 15px;
+$input_transition_duration: .3s;
+$input_focus_border_color: adjust-color($main_color, $lightness: -5%);
+$input_focus_box_shadow: 0 0 0 5px adjust-color($main_color, $lightness: 5%);
+$input_placeholder_color: transparent;
+$input_label_color: adjust-color($input_border_color, $lightness: -5%);
+$input_label_font_size: $input_font_size;
+$input_label_left: $input_padding_x;
+$input_label_top: $input_padding_y;
+$input_label_transition_duration: $input_transition_duration;
+$custom_radio_background_color: $white;
+$custom_radio_border_color: $grey;
+$custom_radio_border_radius: $border_radius_default;
+$custom_radio_border_width: $border_width_default;
+$custom_radio_color: adjust-color($custom_radio_border_color, $lightness: -5%);
+$custom_radio_font_size: 1rem;
+$custom_radio_left: -26px;
+$custom_radio_padding_x: 7px;
+$custom_radio_padding_y: 15px;
+$custom_radio_transition_duration: .3s;
+$custom_radio_focus_border_color: adjust-color($main_color, $lightness: -5%);
+$custom_radio_focus_box_shadow: 0 0 0 5px adjust-color($main_color, $lightness: 5%);
+
+// _main
+$universal_box_sizing: $box_sizing_default;
+$universal_font_family: "Poppins", sans-serif;
+$container_padding_x: 8rem;
+$container_padding_y: 4rem;
+$subtitle_border_radius: $border_radius_default;
+$subtitle_color: $white;
+$subtitle_font_size: 1rem;
+$subtitle_margin_right: 1.5rem;
+$subtitle_padding_left: 5px;
+$subtitle_padding_right: $subtitle_padding_left * 3;
+$subtitle_text_align: right;
+$subtitle_text_transform: uppercase;
+$subtitle_top: -3px;
+$title_font_size: 8rem;
+$title_margin_bottom: 3rem;
+$logo_bottom: -.75rem;
+$logo_height: 6rem;
+$logo_left: -.6rem;
+$logo_margin_right: -1rem;
+$hero_text_font_size: 1.25rem;
+$module_light_background_color: $white;
+$qr_code_background_color: $module_light_background_color;
+$qr_code_border_color: $grey;
+$qr_code_border_radius: $border_radius_default;
+$qr_code_border_width: $border_width_default;
+$module_size: 9px;
+$qr_code_padding: $module_size * 4;
+$module_border_color: $grey;
+$module_border_width: $border_width_default;
+$module_undefined_background_color: $generic_gradient_5;
+$module_reserved_background_color: $generic_gradient_1;
+$module_dark_background_color: $black;
+
+// _theme
+$animated_background_animation_duration: 6s;

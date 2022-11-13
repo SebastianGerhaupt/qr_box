@@ -1,0 +1,139 @@
+// The description above an input element.
+// The margin is set. -> $input_description_margin_top, $input_description_margin_bottom
+// If the description is the first child element inside a container, the margin at the top will be resetted. -> $margin_reset
+.input-description{
+	margin:{
+		top: $input_description_margin_top;
+		bottom: $input_description_margin_bottom;
+	}
+
+	&:first-child{
+		margin-top: $margin_reset;
+	}
+}
+
+// A container for floating labels.
+// The container is positioned relative to align the child elements. -> .input, .label
+.floating-label{
+	position: relative;
+}
+
+// An input field.
+// The border is set. -> $input_border_width, $input_border_color.
+// The input field gets rounded corners. -> $input_border_radius
+// The font size and line height of the input field is set. -> $input_font_size, $input_line_height
+// The padding is set. -> $input_padding_y, $input_padding_x
+// The border color and the box shadow are animated on focus. -> $input_transition_duration, $input_focus_border_color, $input_focus_box_shadow
+// Input fields are full width elements.
+// The color of the placeholder is set. -> $input_placeholder_color
+.input{
+	border:{
+		width: $input_border_width;
+		style: solid;
+		color: $input_border_color;
+		radius: $input_border_radius;
+	}
+	font-size: $input_font_size;
+	line-height: $input_line_height;
+	padding:{
+		top: $input_padding_y;
+		right: $input_padding_x;
+		bottom: $input_padding_y;
+		left: $input_padding_x;
+	}
+	transition:{
+		property: border-color, box-shadow;
+		duration: $input_transition_duration;
+		timing-function: linear;
+	}
+	width: 100%;
+
+	&:focus{
+		border-color: $input_focus_border_color;
+		box-shadow: $input_focus_box_shadow;
+		outline: 0;
+	}
+
+	&::placeholder{
+		color: $input_placeholder_color;
+	}
+}
+
+// Labels are small descriptions of input fields.
+// If these labels follow right after an input field with focus or where the placeholder is not shown, the font size and the top properties will be changed. -> $floating_input_label_font_size, 
+// The color of the label is set. -> $input_label_color
+// The font size of the label is set in dependency of the font size of the label. -> $input_label_font_size
+// Labels that are direct children of a floating container are positioned absolute to be aligned with the input. -> .floating-label, $input_label_left, $input_label_top
+// For these labels a transition for the top property is set. -> $input_label_transition_duration
+%floating_input_label{
+	font-size: $floating_input_label_font_size;
+	top: calc(#{$input_padding_y} - #{$input_label_font_size});
+}
+
+.input-label{
+	color: $input_label_color;
+	font-size: $input_label_font_size;
+
+	.floating-label>&{
+		left: $input_label_left;
+		position: absolute;
+		top: $input_label_top;
+		transition:{
+			property: font-size, top;
+			duration: $input_label_transition_duration;
+			timing-function: linear;
+		}
+	}
+
+	.floating-label>.input:focus+&{
+		@extend %floating_input_label;
+	}
+
+	.floating-label>.input:not(:placeholder-shown)+&{
+		@extend %floating_input_label;
+	}
+}
+
+// The radio input element is hidden and replaced by a customized version. -> .custom-radio
+.radio{
+	opacity: 0;
+}
+
+//ToDo
+.custom-radio{
+	background-color: $custom_radio_background_color;
+	border:{
+		width: $custom_radio_border_width;
+		style: solid;
+		color: $custom_radio_border_color;
+		radius: $custom_radio_border_radius;
+	}
+	color: $custom_radio_color;
+	display: inline-block;
+	font-size: $custom_radio_font_size;
+	left: $custom_radio_left;
+	margin-right: calc(.5rem + #{$custom_radio_left} - 4px);//ToDo: -4px fix for inline-block gaps
+	padding:{
+		top: $custom_radio_padding_y;
+		right: $custom_radio_padding_x;
+		bottom: $custom_radio_padding_y;
+		left: $custom_radio_padding_x;
+	}
+	position: relative;
+	text-align: center;
+	transition:{
+		property: border-color, box-shadow, color;
+		duration: $custom_radio_transition_duration;
+		timing-function: linear;
+	}
+	width: 48px;
+
+	.radio:checked+&{
+		color: initial;
+	}
+
+	.radio:focus+&{
+		border-color: $custom_radio_focus_border_color;
+		box-shadow: $custom_radio_focus_box_shadow;
+	}
+}

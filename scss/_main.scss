@@ -1,0 +1,161 @@
+// The universal selector sets definitions for all elements.
+// The box-sizing for all elements is set. -> $universal_box_sizing
+// The font-family for all elements is set. -> $universal_font_family
+// The pseudo-elements "::before" and "::after" of every element get the same box-sizing value as the selected element.
+*{
+	box-sizing: $universal_box_sizing;
+	font-family: $universal_font_family;
+
+	&::before{
+		box-sizing: $universal_box_sizing;
+	}
+
+	&::after{
+		box-sizing: $universal_box_sizing;
+	}
+}
+
+// The container for the content of the document.
+// The margin is resetted. -> $margin_reset
+body{
+	margin: $margin_reset;
+}
+
+// The subtitle gets rounded corners. -> $subtitle_border_radius
+// The subtitle is an inline-block element so it is positioned next to the title. -> .title
+// The color of the subtitle is set. -> $subtitle_color
+// The font size of the subtitle is set. -> $subtitle_font_size
+// The margin of the subtitle is set. -> $margin_reset, $subtitle_margin_right
+// The padding of the subtitle is set. -> $subtitle_padding_right, $subtitle_padding_left
+// The subtitle is positioned relative to align it with the title. -> .title, $subtitle_top
+// The text-align of the subtitle is set. -> $subtitle_text_align
+// The text of the subtitle is transformed. -> $subtitle_text_transform
+// The subtitle also gets a second class to define the background. -> .background-main-color
+.subtitle{
+	border-radius: $subtitle_border_radius;
+	display: inline-block;
+	color: $subtitle_color;
+	font-size: $subtitle_font_size;
+	margin:{
+		top: $margin_reset;
+		right: calc(#{$subtitle_margin_right} - 4px);//ToDo: -4px fix for inline-block gaps
+		bottom: $margin_reset;
+	}
+	padding:{
+		right: $subtitle_padding_right;
+		left: $subtitle_padding_left;
+	}
+	position: relative;
+	text-align: $subtitle_text_align;
+	text-transform: $subtitle_text_transform;
+	top: $subtitle_top;
+}
+
+// The title is an inline-block element so it is positioned next to the subtitle. -> .subtitle
+// The font size of the title is set. -> $title_font_size
+// The margin of the title is set. -> $margin_reset, $title_margin_bottom
+.title{
+	display: inline-block;
+	font-size: $title_font_size;
+	margin:{
+		top: $margin_reset;
+		right: -4px;//ToDo: -4px fix for inline-block gaps
+		bottom: $title_margin_bottom;
+	}
+}
+
+// The logo is positioned relative to align it with the title. -> .title, $logo_bottom, $logo_left
+// The height of the logo is set to align it with small letters of the title. -> .title, $logo_height
+// The right margin is set to align the logo with the following letters of the title. -> .title, $logo_margin_right
+.logo{
+	bottom: $logo_bottom;
+	height: $logo_height;
+	left: $logo_left;
+	margin-right: $logo_margin_right;
+	position: relative;
+}
+
+// The text inside the hero section is bigger than ordinary text. -> $hero_text_font_size
+// The margin is resetted. -> $margin_reset
+.hero-text{
+	font-size: $hero_text_font_size;
+	margin:{
+		top: $margin_reset;
+		bottom: $margin_reset;
+	};
+}
+
+// A container for the modules of a QR code.
+// The background-color is set. -> $qr_code_background_color
+// The border is set. -> $qr_code_border_width, $qr_code_border_color
+// The container gets rounded corners. -> $qr_code_border_radius
+// The margin is set to center the container horizontally.
+// The container is positioned relative to be centered vertically.
+// The overflow is set to enlarge the container when the content is changed by JavaScript functions.
+// The padding of the container is set. -> $qr_code_padding
+.qr-code{
+	background-color: $qr_code_background_color;
+	border:{
+		width: $qr_code_border_width;
+		style: solid;
+		color: $qr_code_border_color;
+		radius: $qr_code_border_radius;
+	}
+	margin:{
+		right: auto;
+		left: auto;
+	}
+	position: relative;
+	overflow: auto;
+	padding: $qr_code_padding;
+	top: 50%;
+	transform: translateY(-50%);
+	width: max-content;
+}
+
+// A square representing content inside a QR code.
+// Modules are floated to be displayed next to each other up to a special containter interrupts them. -> .break
+// The size of the modules is set. -> $module_size
+// The different types of modules get different background colors. -> $module_undefined_background_color, $module_reserved_background_color, $module_dark_background_color, $module_light_background_color
+// Modules of the animated QR code get borders. -> #qr-animation, $module_border_width, $module_border_color
+.module{
+	float: left;
+	height: $module_size;
+	width: $module_size;
+
+	#qr-animation>&{
+		border:{
+			width: $module_border_width;
+			style: solid;
+			color: $module_border_color;
+		}
+	}
+}
+
+@if $debug{
+	.module-undefined{
+		background-color: $module_undefined_background_color;
+	}
+
+	.module-reserved{
+		background-color: $module_reserved_background_color;
+	}
+}
+
+.module-dark{
+	background-color: $module_dark_background_color;
+}
+
+.module-light{
+	background-color: $module_light_background_color;
+}
+
+// A container that breaks the floating of modules. -> .module
+.break{
+	display: block;
+}
+
+//ToDo
+/*.svg{
+	display: none;
+}*/

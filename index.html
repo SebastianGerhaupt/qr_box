@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+	<title>QR Box</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" />
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="author" content="Sebastian Gerhaupt" />
+	<!--<meta name="description" content="" />-->
+	<!--<meta name="keywords" content="" />-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+
+<body>
+	<header class="container">
+		<div class="row">
+			<div class="column-major">
+				<h2 class="subtitle background-main-color">
+					Quick<br />
+					response<br />
+					Code<br />
+					Generator
+				</h2>
+				<h1 class="title">QR B<img src="images/qr_code.svg" class="logo" alt="QR-Code" />x</h1>
+				<p class="hero-text">QR Box ist ein Generator für Quick-response-Codes (QR-Codes), geschrieben in JavaScript. Generiere deine eigenen QR-Codes und lerne, wie ein QR-Code entsteht.</p>
+			</div>
+			<div class="column-minor">
+				<div id="qr-animation" class="qr-code"></div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container background-main-color">
+		<div class="row">
+			<div class="column-minor">
+				<div id="qr-code" class="qr-code"></div>
+				<!--ToDo: <div id="svg" class="svg"></div>-->
+			</div>
+			<div class="column-major">
+				<form id="form" name="form">
+					<p class="input-description">Gib einen Text ein, der in einen QR-Code umgewandelt werden soll.</p>
+					<div class="floating-label">
+						<input id="text" name="text" class="input" placeholder="Welcher Text soll kodiert werden?" /><!--ToDo: required?-->
+						<label for="text" class="input-label">Welcher Text soll kodiert werden?</label>
+					</div>
+					<p class="input-description">Wähle die Genauigkeit der Fehlerkorrektur.</p>
+					<input type="radio" id="l" name="error_correction_level" class="radio" value="L" />
+					<label class="custom-radio" for="l">7%</label>
+					<input type="radio" id="m" name="error_correction_level" class="radio" value="M" checked />
+					<label class="custom-radio" for="m">15%</label>
+					<input type="radio" id="q" name="error_correction_level" class="radio" value="Q" />
+					<label class="custom-radio" for="q">25%</label>
+					<input type="radio" id="h" name="error_correction_level" class="radio" value="H" />
+					<label class="custom-radio" for="h">30%</label>
+					<input type="button" id="generate" name="generate" value="QR-Code generieren" disabled />
+					<input type="button" id="send" name="send" value="QR-Code per E-Mail erhalten" disabled />
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--<script src="https://smtpjs.com/v3/smtp.js"></script>-->
+	<script src="js/main.js"></script>
+
+	<!--
+	1994 von DENSO WAVE entwickelt
+	1997 als ITS-Standard der AIMI anerkannt
+	2000 als ISO/IEC-Norm anerkannt
+	Mikro-QR-Code 2004 als JIS-X-0510 normiert
+	Das kleinste Element wird "Modul" genannt (schwarz: 1 und weiß: 0)
+	3 Positionserkennungsmuster (1 bei Mikro-QR-Code):
+		1 1 1 1 1 1 1
+		1 0 0 0 0 0 1
+		1 0 1 1 1 0 1
+		1 0 1 1 1 0 1
+		1 0 1 1 1 0 1
+		1 0 0 0 0 0 1
+		1 1 1 1 1 1 1
+	Fehlerkorrekturcode (Reed-Solomon-Code) zur Wiederherstellung von fehlendem oder beschädigten Daten, Fehlerkorrekturebene: Beschädifter Bereich verglichen mit Größe des gesamten Codes: L: 7%, M: 15%, Q: 25%, H: 30%
+	Kleinste Symbolgröße: 21 x 21 Module
+	Größte Symbolgröße: 177 x 177 Module
+	Mikro: Kleinste Symbolgröße: 11 x 11 Module
+	Maximale Datenkapazität:
+		Model 1: Numerisch: 1167 Zeichen, Alphanumerisch: 707 Zeichen, Kanji: 299 Zeichen, Binär: 468 Byte, 1 bis 14 Versionen sind nach dem AIMI-Standard normiert
+		Model 2: Numerisch: 7089 Zeichen, Alphanumerisch: 4296 Zeichen, Kanji: 1817 Zeichen, Binär: 2953 Byte, 1 bis 40 Versionen sind nach dem AIMI-Standard normiert, mehr Daten
+		Mirko: Numerisch: 35 Zeichen, Alphanumerisch: 21 Zeichen, Kanji: 9 Zeichen, Binär: 15 Byte
+	Wenn die Versionsnummer steigt, werden der X- und der Y-Achse jeweils 4 (bei Mikro 2) Module hinzugefügt
+	Rand: Model 1 und 2: 4 Module weiß, Mikro-QR: 2 Module weiß
+	Bestimmung der Größe:
+		1. Bestimmung der Version anhand von Datengehalt, Zeichentyp und Fehlerkorrekturverhältnis
+		2. Bestimmung der Modulgröße in Anbetracht der Druckerauflösung und der Leistung des Scanners
+		3. Größe festlegen: Anzahl der Module wird mit der druckbaren Modulgröße multipliziert, Ränder hinzufügen
+	Bsp.:
+		Modulgröße: 0,25 mm
+		Größe des QR-Codes: 5,25 × 5,25 mm bei Version 1 (21 × 21), 8,25 × 8,25 mm bei Version 4 (33 × 33)
+		Platzbedarf einschließlich Rändern: 7,25 × 7,25 mm bei Version 1 (29 × 29), 10,25 × 10,25 mm bei Version 4 (41 × 41)
+	https://www.keyence.de/ss/products/auto_id/barcode_lecture/basic_2d/qr/
+	https://www.thonky.com/qr-code-tutorial/introduction
+	-->
+</body>
+
+</html>

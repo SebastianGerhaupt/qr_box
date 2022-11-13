@@ -1,0 +1,57 @@
+// Containers are wrappers for content.
+// Containers have different paddings set for horizontal and vertical spacing. -> $container_padding_y, $container_padding_x
+.container{
+	padding:{
+		top: $container_padding_y;
+		right: $container_padding_x;
+		bottom: $container_padding_y;
+		left: $container_padding_x;
+	}
+}
+
+// Rows are wrappers for columns.
+// Rows are flex-containers.
+// Rows have vertical spacing between them. -> $grid_gutter_width
+.row{
+	display: flex;
+	flex-wrap: wrap;
+
+	&+&{
+		margin-top: $grid_gutter_width;
+	}
+}
+
+// Columns are containers for content.
+// Columns are used inside rows, so they are flex-items.
+// Columns have spacing between them. -> $grid_gutter_width, $margin_reset
+// There is a maximum count of columns inside a row. -> $column_count
+// There are two special classes for columns that together represent the golden ratio. -> .column-major, .column-minor
+// The width of the columns representing the golden ratio is calculated different from the others. -> $major, $minor
+// The column width is set in percentage so they will always have the same relative size.
+%column{
+	margin-right: $grid_gutter_width;
+
+	&:last-child{
+		margin-right: $margin_reset;
+	}
+}
+
+@for $i from 1 through $column_count{
+	.column-#{$i}{
+		@extend %column;
+
+		width: calc(100% / (#{$column_count} / #{$i}) - #{$grid_gutter_width} * (#{$column_count} - #{$i}) / #{$column_count});
+	}
+}
+
+.column-major{
+	@extend %column;
+
+	width: calc(#{$major} - #{$grid_gutter_width} / 2);
+}
+
+.column-minor{
+	@extend %column;
+
+	width: calc(#{$minor} - #{$grid_gutter_width} / 2);
+}

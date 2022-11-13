@@ -1,0 +1,80 @@
+// A class to set the background of an element.
+// The background color is set as a fallback. -> $main_color
+// A linear gradient with three colors from the top left to the bottom right corner is defined. -> $main_color, $generic_gradient_1, $generic_gradient_2
+.background-main-color{
+	background:{
+		color: $main_color;
+		image: linear-gradient(to bottom right, $main_color, $generic_gradient_1, $generic_gradient_2);
+	}
+}
+
+// Two classes to set an animated background for an element.
+// The time the animation runs is set. -> $animated_background_animation_duration
+// The animation starts and ends with the color of the dark modules of a QR code. -> $module_dark_background_color
+// The background color changes from the first color to the second, to the third, back to the second, back to the first. -> $main_color, $generic_gradient_1, $generic_gradient_2 / $generic_gradient_3, $generic_gradient_4, $generic_gradient_5
+%animated_background{
+	animation:{
+		duration: $animated_background_animation_duration;
+		timing-function: linear;
+	}
+}
+
+@keyframes animated_background_main_color{
+	0%{
+		background-color: $module_dark_background_color;
+	}
+	17%{
+		background-color: $main_color;
+	}
+	34%{
+		background-color: $generic_gradient_1;
+	}
+	50%{
+		background-color: $generic_gradient_2;
+	}
+	67%{
+		background-color: $generic_gradient_1;
+	}
+	84%{
+		background-color: $main_color;
+	}
+	100%{
+		background-color: $module_dark_background_color;
+	}
+}
+
+.animation-main-color{
+	@extend %animated_background;
+
+	animation-name: animated_background_main_color;
+}
+
+@keyframes animated_generic_gradient_3{
+	0%{
+		background-color: $module_dark_background_color;
+	}
+	17%{
+		background-color: $generic_gradient_3;
+	}
+	34%{
+		background-color: $generic_gradient_4;
+	}
+	50%{
+		background-color: $generic_gradient_5;
+	}
+	67%{
+		background-color: $generic_gradient_4;
+	}
+	84%{
+		background-color: $generic_gradient_3;
+	}
+	100%{
+		background-color: $module_dark_background_color;
+	}
+}
+
+.animation-generic-gradient-3{
+	@extend %animated_background;
+
+	animation-name: animated_generic_gradient_3;
+}
