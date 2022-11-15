@@ -1703,7 +1703,8 @@ function drawMatrix(matrix, id){
 	const element=document.getElementById(id);
 	element.innerHTML=htmlCode;
 
-	//ToDo: describe
+	// In case the generated matrix is bigger than 470 pixels, the size of the modules and the padding of the matrix will be reduced.
+	//ToDo: Why 470?
 	const modules=element.querySelectorAll("."+CLASS_MODULE);
 	let size=parseInt(getCss(modules[0], "width").replace("px", ""));
 	while(parseInt(getCss(element, "width").replace("px", ""))>470){
