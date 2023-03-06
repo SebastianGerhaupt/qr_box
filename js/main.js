@@ -6,7 +6,7 @@
 const DEBUG=true;
 
 /**
- * @description Alpha is used for alpha notation of powers of the number two.
+ * @description Alpha is used for alpha notation of powers of the number 2.
  * @constant
  * @type {number}
  */
@@ -27,53 +27,34 @@ const GF_256_LOG=generateGf256Log();
 const GF_256_ANTILOG=generateGf256Antilog();
 
 /**
- * @description The two bit indicator for the error correction level "L".
+ * @description An object that represents the two bit indicator for the error correction level for the different error correction levels.
  * @constant
- * @type {string}
+ * @type {Object}
+ * @property {string} l The two bit indicator for the error correction level "L".
+ * @property {string} m The two bit indicator for the error correction level "M". This is the most common error correction level.
+ * @property {string} q The two bit indicator for the error correction level "Q".
+ * @property {string} h The two bit indicator for the error correction level "H".
  */
-const LEVEL_L="01";
+const ERROR_CORRECTION_LEVELS={
+	l: "01",
+	m: "00",
+	q: "11",
+	h: "10"
+}
 
 /**
- * @description The two bit indicator for the error correction level "M". This is the most common error correction level.
+ * @description An object that represents the four bit indicator for the different modes.
  * @constant
- * @type {string}
+ * @type {Object}
+ * @property {string} numericMode The four bit indicator for the "numeric mode".
+ * @property {string} alphanumericMode The four bit indicator for the "alphanumeric mode".
+ * @property {string} byteMode The four bit indicator for the "byte mode".
  */
-const LEVEL_M="00";
-
-/**
- * @description The two bit indicator for the error correction level "Q".
- * @constant
- * @type {string}
- */
-const LEVEL_Q="11";
-
-/**
- * @description The two bit indicator for the error correction level "H".
- * @constant
- * @type {string}
- */
-const LEVEL_H="10";
-
-/**
- * @description The four bit indicator for the "numeric mode".
- * @constant
- * @type {string}
- */
-const NUMERIC_MODE="0001";
-
-/**
- * @description The four bit indicator for the "alphanumeric mode".
- * @constant
- * @type {string}
- */
-const ALPHANUMERIC_MODE="0010";
-
-/**
- * @description The four bit indicator for the "byte mode".
- * @constant
- * @type {string}
- */
-const BYTE_MODE="0100";
+const MODES={
+	numericMode: "0001",
+	alphanumericMode: "0010",
+	byteMode: "0100"
+}
 
 /**
  * @description An object that represents the character capacity table of QR codes for the error correction level "L". The index of an array plus one represents the version of the QR code (i=0 -> version 1). The value represents the character capacity for that version.
@@ -203,32 +184,20 @@ const BLOCKS_CODEWORDS_H={
 };
 
 /**
- * @description An array representing the number of error correction codewords per block of data codewords for QR codes with the error correction level "L" depending on the version. The index of an array plus one represents the version of the QR code (i=0 -> version 1).
+ * @description An object that represents the number of error correction codewords per block of data codewords for QR codes depending on the version. The index of an array plus one represents the version of the QR code (i=0 -> version 1).
  * @constant
- * @type {number[]}
+ * @type {Object}
+ * @property {string} l The number of error correction codewords per block of data codewords for QR codes with the error correction level "L".
+ * @property {string} m The number of error correction codewords per block of data codewords for QR codes with the error correction level "M".
+ * @property {string} q The number of error correction codewords per block of data codewords for QR codes with the error correction level "Q".
+ * @property {string} h The number of error correction codewords per block of data codewords for QR codes with the error correction level "H".
  */
-const ERROR_CODEWORDS_COUNT_L=[7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30];
-
-/**
- * @description An array representing the number of error correction codewords per block of data codewords for QR codes with the error correction level "M" depending on the version. The index of an array plus one represents the version of the QR code (i=0 -> version 1).
- * @constant
- * @type {number[]}
- */
-const ERROR_CODEWORDS_COUNT_M=[10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28];
-
-/**
- * @description An array representing the number of error correction codewords per block of data codewords for QR codes with the error correction level "Q" depending on the version. The index of an array plus one represents the version of the QR code (i=0 -> version 1).
- * @constant
- * @type {number[]}
- */
-const ERROR_CODEWORDS_COUNT_Q=[13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30];
-
-/**
- * @description An array representing the number of error correction codewords per block of data codewords for QR codes with the error correction level "H" depending on the version. The index of an array plus one represents the version of the QR code (i=0 -> version 1).
- * @constant
- * @type {number[]}
- */
-const ERROR_CODEWORDS_COUNT_H=[17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30];
+const ERROR_CODEWORDS_COUNTS={
+	l: [7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+	m: [10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
+	q: [13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+	h: [17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
+}
 
 /**
  * @description An object that represents the coordinates of the center modules of the alignment patterns. The index of an array plus two represents the version of the QR code (i=0 -> version 2).
@@ -251,32 +220,25 @@ const ALIGNMENT_PATTERN_COORDINATES={
 };
 
 /**
- * @description The name of the state for reserved modules.
+ * @description An object that represents the character capacity table of QR codes for the error correction level "H". The index of an array plus one represents the version of the QR code (i=0 -> version 1). The value represents the character capacity for that version.
  * @constant
- * @type {string}
+ * @type {Object}
+ * @property {string} reservedState The name of the state for reserved modules.
+ * @property {string} classModuleDark The class name for dark modules.
+ * @property {string} classModule The class name for modules.
  */
-const RESERVED_STATE="reserved";
-
-/**
- * @description The class name for dark modules.
- * @constant
- * @type {string}
- */
-const CLASS_MODULE_DARK="module-dark";
-
-/**
- * @description The class name for modules.
- * @constant
- * @type {string}
- */
-const CLASS_MODULE="module";
+const MODULES={
+	reservedState: "reserved",
+	classModuleDark: "module-dark",
+	classModule: "module"
+};
 
 /**
  * @description The input element for the text.
  * @constant
  * @type {Object}
  */
-const ELEMENT_TEXT=document.getElementById("text");
+const INPUT=document.getElementById("text");
 
 /**
  * @description The button to generate a QR code.
@@ -312,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		// The matrix will be animated.
 		// The animation will run instantly once because of the delay of the interval.
 		// After the first run, the animation will be repeated infinitly.
-		const modules=document.getElementById(id).querySelectorAll("."+CLASS_MODULE_DARK);
+		const modules=document.getElementById(id).querySelectorAll("."+MODULES.classModuleDark);
 		let randomNumbers=[];
 		const animationDuration=animateMatrix(modules, randomNumbers);
 		setInterval(function(){
@@ -335,7 +297,7 @@ function animateMatrix(modules, randomNumbers){
 	const classAnimation=Math.ceil(Math.random()*2)==1?"animation-main-color":"animation-generic-gradient-3";
 
 	// The class name of the randomly chosen dark module will be changed.
-	modules[random].className=modules[random].className.replace(CLASS_MODULE_DARK, classAnimation);
+	modules[random].className=modules[random].className.replace(MODULES.classModuleDark, classAnimation);
 
 	// The animation duration will be saved to a constant.
 	const animationDuration=parseInt(getCss(modules[random], "animation-duration").replace("ms", "").replace("s", "000"));
@@ -343,7 +305,7 @@ function animateMatrix(modules, randomNumbers){
 	// After the animation duration, the class name of the first module inside the array will be resetted.
 	// The index of the first dark module will be removed from the array.
 	setTimeout(function(){
-			modules[randomNumbers[0]].className=modules[randomNumbers[0]].className.replace(classAnimation, CLASS_MODULE_DARK);
+			modules[randomNumbers[0]].className=modules[randomNumbers[0]].className.replace(classAnimation, MODULES.classModuleDark);
 			randomNumbers.shift();
 	}, animationDuration);
 
@@ -362,7 +324,7 @@ function getCss(element, property){
 }
 
 // If the input text is changed, the form will be validated.
-ELEMENT_TEXT.addEventListener("input", validate);
+INPUT.addEventListener("input", validate);
 
 // If a radio button is clicked, the form will be validated.
 document.form.error_correction_level.forEach((element)=>{
@@ -385,7 +347,7 @@ function validate(){
  */
 function validateInput(){
 	// The optimal one of the three (five) possible modes will be chosen in dependency of the user input.
-	const modeIndicator=chooseModeIndicator(ELEMENT_TEXT.value);
+	const modeIndicator=chooseModeIndicator(INPUT.value);
 
 	// The level indicator will be chosen in dependency of the error correction level.
 	const levelIndicator=chooseLevelIndicator(document.querySelector('input[name="error_correction_level"]:checked').value);
@@ -396,26 +358,26 @@ function validateInput(){
 	// The maximum character capacity will be chosen in dependency of the mode indicator.
 	let capacity;
 	switch(modeIndicator){
-		case NUMERIC_MODE:
+		case MODES.numericMode:
 			capacity=capacities.numericMode[capacities.numericMode.length-1];
 			break;
-		case ALPHANUMERIC_MODE:
+		case MODES.alphanumericMode:
 			capacity=capacities.alphanumericMode[capacities.alphanumericMode.length-1];
 			break;
-		case BYTE_MODE:
+		case MODES.byteMode:
 			capacity=capacities.byteMode[capacities.byteMode.length-1];
 	}
 
 	// If the user input is not empty, the maximum length of the input will be set in dependency of the maximum character capacity.
 	// The capacity will be returned.
 	if(capacity!==undefined){
-		ELEMENT_TEXT.maxLength=capacity;
+		INPUT.maxLength=capacity;
 		return capacity;
 	}
 
 	// If the user input is empty, the attribute to set the maximum length of the input will be removed.
 	// A capacity of "0" will be returned.
-	ELEMENT_TEXT.removeAttribute("maxLength");
+	INPUT.removeAttribute("maxLength");
 	return 0;
 }
 
@@ -426,7 +388,7 @@ function validateInput(){
  */
 function toggleButtons(capacity){
 	// ToDo
-	if(capacity>0&&capacity>=ELEMENT_TEXT.value.length){
+	if(capacity>0&&capacity>=INPUT.value.length){
 		BUTTON_GENERATE.disabled=false;
 		BUTTON_SEND.disabled=false;
 	}
@@ -444,11 +406,11 @@ function toggleButtons(capacity){
  */
 function chooseCapacities(levelIndicator){
 	switch(levelIndicator){
-		case LEVEL_L:
+		case ERROR_CORRECTION_LEVELS.l:
 			return CAPACITIES_L;
-		case LEVEL_Q:
+		case ERROR_CORRECTION_LEVELS.q:
 			return CAPACITIES_Q;
-		case LEVEL_H:
+		case ERROR_CORRECTION_LEVELS.h:
 			return CAPACITIES_H;
 		default:
 			return CAPACITIES_M;
@@ -461,7 +423,7 @@ BUTTON_GENERATE.addEventListener("click", function(){
 		if(DEBUG) console.time("Time to display the QR code");
 
 		// The user input will be saved to constants.
-		const input=ELEMENT_TEXT.value;
+		const input=INPUT.value;
 		const level=document.querySelector('input[name="error_correction_level"]:checked').value;
 
 		// The user input will be logged in debugging mode.
@@ -592,13 +554,13 @@ function QR(level, input){
 function chooseLevelIndicator(level){
 	switch(level){
 		case "L":
-			return LEVEL_L;
+			return ERROR_CORRECTION_LEVELS.l;
 		case "Q":
-			return LEVEL_Q;
+			return ERROR_CORRECTION_LEVELS.q;
 		case "H":
-			return LEVEL_H;
+			return ERROR_CORRECTION_LEVELS.h;
 		default:
-			return LEVEL_M;
+			return ERROR_CORRECTION_LEVELS.m;
 	}
 }
 
@@ -611,15 +573,15 @@ function chooseLevelIndicator(level){
 function chooseModeIndicator(input){
 	// The input string will be checked for a numeric expression.
 	// Possible is a string consisting of the decimal digits 0 - 9.
-	if(new RegExp("^[0-9]+$").test(input)) return NUMERIC_MODE;
+	if(new RegExp("^[0-9]+$").test(input)) return MODES.numericMode;
 
 	// The input string will be checked for an alphanumeric expression.
 	// Possible is a string consisting of the digits 0 - 9, the uppercase letters A - Z, whitespaces and the symbols "$", "%", "*", "+", "-", ".", "/" and ":".
-	if(new RegExp("^[0-9A-Z\s \$%\*\+-\./:]+$").test(input)) return ALPHANUMERIC_MODE;
+	if(new RegExp("^[0-9A-Z\s \$%\*\+-\./:]+$").test(input)) return MODES.alphanumericMode;
 
 	// The input string will be checked for the ISO-8859-1 character set.
 	// Possible is a string consisting of symbols that are content of the ISO-8859-1 character set.
-	if(new RegExp("^[\x00-\x7F\xA0-\xFF]+$").test(input)) return BYTE_MODE;
+	if(new RegExp("^[\x00-\x7F\xA0-\xFF]+$").test(input)) return MODES.byteMode;
 }
 
 /**
@@ -637,15 +599,15 @@ function chooseSmallestVersion(levelIndicator, modeIndicator, inputLength){
 	// If the length of the user input is smaller or equal to a capacity inside the table, the index plus one is the smallest possible version.
 	// The smallest possible version will be returned.
 	switch(modeIndicator){
-		case NUMERIC_MODE:
+		case MODES.numericMode:
 			for(let i=0; i<capacities.numericMode.length; i++){
 				if(inputLength<=capacities.numericMode[i]) return i+1;
 			}
-		case ALPHANUMERIC_MODE:
+		case MODES.alphanumericMode:
 			for(let i=0; i<capacities.alphanumericMode.length; i++){
 				if(inputLength<=capacities.alphanumericMode[i]) return i+1;
 			}
-		case BYTE_MODE:
+		case MODES.byteMode:
 			for(let i=0; i<capacities.byteMode.length; i++){
 				if(inputLength<=capacities.byteMode[i]) return i+1;
 			}
@@ -663,15 +625,15 @@ function generateCountIndicator(modeIndicator, version, inputLength){
 	// The character count indicator will be created by filling up the binary representation of the length of the user input with the correct count of zeros.
 	// Every combination of mode and a group of versions (1 - 9, 10 - 26, 27 - 40) needs a specific length of the character count indicator.
 	switch(modeIndicator){
-		case NUMERIC_MODE:
+		case MODES.numericMode:
 			if(version<=9) return inputLength.toString(2).padStart(10, "0");
 			if(version>=10&&version<=26) return inputLength.toString(2).padStart(12, "0");
 			return inputLength.toString(2).padStart(14, "0");
-		case ALPHANUMERIC_MODE:
+		case MODES.alphanumericMode:
 			if(version<=9) return inputLength.toString(2).padStart(9, "0");
 			if(version>=10&&version<=26) return inputLength.toString(2).padStart(11, "0");
 			return inputLength.toString(2).padStart(13, "0");
-		case BYTE_MODE:
+		case MODES.byteMode:
 			if(version<=9) return inputLength.toString(2).padStart(8, "0");
 			return inputLength.toString(2).padStart(16, "0");
 	}
@@ -686,11 +648,11 @@ function generateCountIndicator(modeIndicator, version, inputLength){
 function encodeInput(modeIndicator, input){
 	// Depending on the mode indicator the correct encoding will be started.
 	switch(modeIndicator){
-		case NUMERIC_MODE:
+		case MODES.numericMode:
 			return encodeNumeric(input);
-		case ALPHANUMERIC_MODE:
+		case MODES.alphanumericMode:
 			return encodeAlphanumeric(input);
-		case BYTE_MODE:
+		case MODES.byteMode:
 			return encodeByte(input);
 	}
 }
@@ -793,11 +755,11 @@ function encodeByte(input){
 function calculateDataBitsCount(levelIndicator, version){
 	// The total number of data bits will be calculated in dependency of the error correction level and the version and then returned.
 	switch(levelIndicator){
-		case LEVEL_L:
+		case ERROR_CORRECTION_LEVELS.l:
 			return (BLOCKS_CODEWORDS_L.group1Blocks[version-1]*BLOCKS_CODEWORDS_L.blocks1Codewords[version-1]+BLOCKS_CODEWORDS_L.group2Blocks[version-1]*BLOCKS_CODEWORDS_L.blocks2Codewords[version-1])*8;
-		case LEVEL_Q:
+		case ERROR_CORRECTION_LEVELS.q:
 			return (BLOCKS_CODEWORDS_Q.group1Blocks[version-1]*BLOCKS_CODEWORDS_Q.blocks1Codewords[version-1]+BLOCKS_CODEWORDS_Q.group2Blocks[version-1]*BLOCKS_CODEWORDS_Q.blocks2Codewords[version-1])*8;
-		case LEVEL_H:
+		case ERROR_CORRECTION_LEVELS.h:
 			return (BLOCKS_CODEWORDS_H.group1Blocks[version-1]*BLOCKS_CODEWORDS_H.blocks1Codewords[version-1]+BLOCKS_CODEWORDS_H.group2Blocks[version-1]*BLOCKS_CODEWORDS_H.blocks2Codewords[version-1])*8;
 		default:
 			return (BLOCKS_CODEWORDS_M.group1Blocks[version-1]*BLOCKS_CODEWORDS_M.blocks1Codewords[version-1]+BLOCKS_CODEWORDS_M.group2Blocks[version-1]*BLOCKS_CODEWORDS_M.blocks2Codewords[version-1])*8;
@@ -866,13 +828,13 @@ function generateDataCodewordGroups(levelIndicator, encodedData, version){
 	// The counts of blocks and the counts of data codewords will be chosen in dependency of the error correction level.
 	let blocksCodewords;
 	switch(levelIndicator){
-		case LEVEL_L:
+		case ERROR_CORRECTION_LEVELS.l:
 			blocksCodewords=BLOCKS_CODEWORDS_L;
 			break;
-		case LEVEL_Q:
+		case ERROR_CORRECTION_LEVELS.q:
 			blocksCodewords=BLOCKS_CODEWORDS_Q;
 			break;
-		case LEVEL_H:
+		case ERROR_CORRECTION_LEVELS.h:
 			blocksCodewords=BLOCKS_CODEWORDS_H;
 			break;
 		default:
@@ -985,14 +947,14 @@ function fillMessageCoefficientGroup(dataCodewordGroup){
 function chooseErrorCodewordsCount(levelIndicator, version){
 	// The number of error correction codewords will be returned in dependency of the error correction level and version.
 	switch(levelIndicator){
-		case LEVEL_L:
-			return ERROR_CODEWORDS_COUNT_L[version-1];
-		case LEVEL_Q:
-			return ERROR_CODEWORDS_COUNT_Q[version-1];
-		case LEVEL_H:
-			return ERROR_CODEWORDS_COUNT_H[version-1];
+		case ERROR_CORRECTION_LEVELS.l:
+			return ERROR_CODEWORDS_COUNTS.l[version-1];
+		case ERROR_CORRECTION_LEVELS.q:
+			return ERROR_CODEWORDS_COUNTS.q[version-1];
+		case ERROR_CORRECTION_LEVELS.h:
+			return ERROR_CODEWORDS_COUNTS.h[version-1];
 		default:
-			return ERROR_CODEWORDS_COUNT_M[version-1];
+			return ERROR_CODEWORDS_COUNTS.m[version-1];
 	}
 }
 
@@ -1289,7 +1251,7 @@ function generateMatrix(version){
  */
 function placeDarkModule(matrix, version, reserve){
 	// The dark module is always at the same point and will be set to the reserved state or to one.
-	matrix[version*4+9][8]=reserve?RESERVED_STATE:1;
+	matrix[version*4+9][8]=reserve?MODULES.reservedState:1;
 }
 
 /**
@@ -1301,7 +1263,7 @@ function placeDarkModule(matrix, version, reserve){
 function placeSeparators(reserve, matrix){
 	// In the first run the value will be set to the reserved state.
 	// In the second run the value will be set to zero.
-	const value=reserve?RESERVED_STATE:0;
+	const value=reserve?MODULES.reservedState:0;
 
 	// The separators are borders of one module around two sides of the finder patterns.
 	// A field of eight by eight modules will be set to the reserve state or zero.
@@ -1343,12 +1305,12 @@ function placeAlignmentPatterns(version, reserve, matrix){
 			let isEmpty=true;
 			for(let j=-2; j<3; j++){
 				for(let k=-2; k<3; k++){
-					if((reserve&&matrix[moduleCenters[i][0]+j][moduleCenters[i][1]+k]!==undefined)||(!reserve&&matrix[moduleCenters[i][0]+j][moduleCenters[i][1]+k]!=RESERVED_STATE)) isEmpty=false;
+					if((reserve&&matrix[moduleCenters[i][0]+j][moduleCenters[i][1]+k]!==undefined)||(!reserve&&matrix[moduleCenters[i][0]+j][moduleCenters[i][1]+k]!=MODULES.reservedState)) isEmpty=false;
 				}
 			}
 			if(isEmpty){
 				for(let j=-2; j<3; j++){
-					for(let k=-2; k<3; k++) matrix[moduleCenters[i][0]+j][moduleCenters[i][1]+k]=reserve?RESERVED_STATE:1;
+					for(let k=-2; k<3; k++) matrix[moduleCenters[i][0]+j][moduleCenters[i][1]+k]=reserve?MODULES.reservedState:1;
 				}
 				if(!reserve){
 					for(let j=-1; j<2; j++){
@@ -1373,8 +1335,8 @@ function placeTimingPatterns(matrix, reserve){
 	// The timing patterns fit in the alignment patterns so they can not change them by overriding.
 	for(let i=8; i<matrix.length-8; i++){
 		if(reserve){
-			matrix[6][i]=RESERVED_STATE;
-			matrix[i][6]=RESERVED_STATE;
+			matrix[6][i]=MODULES.reservedState;
+			matrix[i][6]=MODULES.reservedState;
 		}
 		else{
 			matrix[6][i]=(i%2==0)?1:0;
@@ -1391,11 +1353,11 @@ function placeTimingPatterns(matrix, reserve){
 function reserveFormatBits(matrix){
 	// The areas to store the format information will be reserved.
 	for(let i=0; i<9; i++){
-		if(matrix[i][8]===undefined) matrix[i][8]=RESERVED_STATE;
-		if(matrix[8][i]===undefined) matrix[8][i]=RESERVED_STATE;
+		if(matrix[i][8]===undefined) matrix[i][8]=MODULES.reservedState;
+		if(matrix[8][i]===undefined) matrix[8][i]=MODULES.reservedState;
 	}
-	for(let i=0; i<8; i++) matrix[8][matrix[8].length-1-i]=RESERVED_STATE;
-	for(let i=0; i<7; i++) matrix[matrix[8].length-1-i][8]=RESERVED_STATE;
+	for(let i=0; i<8; i++) matrix[8][matrix[8].length-1-i]=MODULES.reservedState;
+	for(let i=0; i<7; i++) matrix[matrix[8].length-1-i][8]=MODULES.reservedState;
 }
 
 /**
@@ -1409,8 +1371,8 @@ function reserveVersionBits(version, matrix){
 	if(version>=7){
 		for(let i=0; i<6; i++){
 			for(let j=0; j<3; j++){
-				matrix[i][matrix[i].length-9-j]=RESERVED_STATE;
-				matrix[matrix[i].length-9-j][i]=RESERVED_STATE;
+				matrix[i][matrix[i].length-9-j]=MODULES.reservedState;
+				matrix[matrix[i].length-9-j][i]=MODULES.reservedState;
 			}
 		}
 	}
@@ -1473,14 +1435,14 @@ function generateMaskedMatrizes(matrix, version, levelIndicator){
 	// For every copy a different mask will be applied.
 	for(let i=0; i<matrix.length; i++){
 		for(let j=0; j<matrix[i].length; j++){
-			if(maskedMatrizes[0][i][j]!=RESERVED_STATE&&(i+j)%2==0) maskedMatrizes[0][i][j]=(maskedMatrizes[0][i][j]==0)?1:0;
-			if(maskedMatrizes[1][i][j]!=RESERVED_STATE&&i%2==0) maskedMatrizes[1][i][j]=(maskedMatrizes[1][i][j]==0)?1:0;
-			if(maskedMatrizes[2][i][j]!=RESERVED_STATE&&j%3==0) maskedMatrizes[2][i][j]=(maskedMatrizes[2][i][j]==0)?1:0;
-			if(maskedMatrizes[3][i][j]!=RESERVED_STATE&&(i+j)%3==0) maskedMatrizes[3][i][j]=(maskedMatrizes[3][i][j]==0)?1:0;
-			if(maskedMatrizes[4][i][j]!=RESERVED_STATE&&(Math.floor(i/2)+Math.floor(j/3))%2==0) maskedMatrizes[4][i][j]=(maskedMatrizes[4][i][j]==0)?1:0;
-			if(maskedMatrizes[5][i][j]!=RESERVED_STATE&&((i*j)%2)+((i*j)%3)==0) maskedMatrizes[5][i][j]=(maskedMatrizes[5][i][j]==0)?1:0;
-			if(maskedMatrizes[6][i][j]!=RESERVED_STATE&&(((i*j)%2)+((i*j)%3))%2==0) maskedMatrizes[6][i][j]=(maskedMatrizes[6][i][j]==0)?1:0;
-			if(maskedMatrizes[7][i][j]!=RESERVED_STATE&&(((i+j)%2)+((i*j)%3))%2==0) maskedMatrizes[7][i][j]=(maskedMatrizes[7][i][j]==0)?1:0;
+			if(maskedMatrizes[0][i][j]!=MODULES.reservedState&&(i+j)%2==0) maskedMatrizes[0][i][j]=(maskedMatrizes[0][i][j]==0)?1:0;
+			if(maskedMatrizes[1][i][j]!=MODULES.reservedState&&i%2==0) maskedMatrizes[1][i][j]=(maskedMatrizes[1][i][j]==0)?1:0;
+			if(maskedMatrizes[2][i][j]!=MODULES.reservedState&&j%3==0) maskedMatrizes[2][i][j]=(maskedMatrizes[2][i][j]==0)?1:0;
+			if(maskedMatrizes[3][i][j]!=MODULES.reservedState&&(i+j)%3==0) maskedMatrizes[3][i][j]=(maskedMatrizes[3][i][j]==0)?1:0;
+			if(maskedMatrizes[4][i][j]!=MODULES.reservedState&&(Math.floor(i/2)+Math.floor(j/3))%2==0) maskedMatrizes[4][i][j]=(maskedMatrizes[4][i][j]==0)?1:0;
+			if(maskedMatrizes[5][i][j]!=MODULES.reservedState&&((i*j)%2)+((i*j)%3)==0) maskedMatrizes[5][i][j]=(maskedMatrizes[5][i][j]==0)?1:0;
+			if(maskedMatrizes[6][i][j]!=MODULES.reservedState&&(((i*j)%2)+((i*j)%3))%2==0) maskedMatrizes[6][i][j]=(maskedMatrizes[6][i][j]==0)?1:0;
+			if(maskedMatrizes[7][i][j]!=MODULES.reservedState&&(((i+j)%2)+((i*j)%3))%2==0) maskedMatrizes[7][i][j]=(maskedMatrizes[7][i][j]==0)?1:0;
 		}
 	}
 
@@ -1574,8 +1536,8 @@ function addFormatBits(levelIndicator, maskNumber, maskedMatrix){
 	for(let i=0; i<formatInformation.length; i++) formatBits+=formatInformation.charAt(i)^mask.charAt(i);
 
 	for(let i=0; i<9; i++){
-		if(maskedMatrix[8][i]==RESERVED_STATE) maskedMatrix[8][i]=formatBits.charAt(i);
-		if(maskedMatrix[i][8]==RESERVED_STATE) maskedMatrix[i][8]=formatBits.charAt(i+8);
+		if(maskedMatrix[8][i]==MODULES.reservedState) maskedMatrix[8][i]=formatBits.charAt(i);
+		if(maskedMatrix[i][8]==MODULES.reservedState) maskedMatrix[i][8]=formatBits.charAt(i+8);
 	}
 	for(let i=0; i<7; i++) maskedMatrix[maskedMatrix[8].length-1-i][8]=formatBits.charAt(i);
 	for(let i=0; i<8; i++) maskedMatrix[8][maskedMatrix[8].length-1-i]=formatBits.charAt(i+8);
@@ -1690,11 +1652,11 @@ function drawMatrix(matrix, id){
 		for(let j=0; j<matrix[i].length; j++){
 			if(DEBUG){
 				if(matrix[i][j]===undefined) cssClass="module-undefined";
-				if(matrix[i][j]==RESERVED_STATE) cssClass="module-reserved";
+				if(matrix[i][j]==MODULES.reservedState) cssClass="module-reserved";
 			}
-			if(matrix[i][j]==1) cssClass=CLASS_MODULE_DARK;
+			if(matrix[i][j]==1) cssClass=MODULES.classModuleDark;
 			if(matrix[i][j]==0) cssClass="module-light";
-			htmlCode+='<div class="'+CLASS_MODULE+" "+cssClass+'"></div>';
+			htmlCode+='<div class="'+MODULES.classModule+" "+cssClass+'"></div>';
 			if(j==matrix[i].length-1) htmlCode+='<div class="break"></div>';
 		}
 	}
@@ -1705,7 +1667,7 @@ function drawMatrix(matrix, id){
 
 	// In case the generated matrix is bigger than 470 pixels, the size of the modules and the padding of the matrix will be reduced.
 	//ToDo: Why 470?
-	const modules=element.querySelectorAll("."+CLASS_MODULE);
+	const modules=element.querySelectorAll("."+MODULES.classModule);
 	let size=parseInt(getCss(modules[0], "width").replace("px", ""));
 	while(parseInt(getCss(element, "width").replace("px", ""))>470){
 		size--;
