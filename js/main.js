@@ -402,7 +402,7 @@ function toggleButtons(capacity){
 /**
  * @description The character capacities will be chosen in dependency of the error correction level.
  * @param {string} levelIndicator The level indicator.
- * @returns {*} The character capacities.
+ * @returns {Object} The character capacities.
  */
 function chooseCapacities(levelIndicator){
 	switch(levelIndicator){
@@ -525,25 +525,27 @@ function generateGf256Antilog(){
  * @param {string} level The error correction level chosen by the user.
  * @param {string} input The text of the user input.
  */
-function QR(level, input){
-	this.levelIndicator=chooseLevelIndicator(level);
-	this.modeIndicator=chooseModeIndicator(input);
-	this.version=chooseSmallestVersion(this.levelIndicator, this.modeIndicator, input.length);
-	this.countIndicator=generateCountIndicator(this.modeIndicator, this.version, input.length);
-	this.encodedInput=encodeInput(this.modeIndicator, input);
-	this.dataBitsCount=calculateDataBitsCount(this.levelIndicator, this.version);
-	this.terminator=generateTerminator(this.modeIndicator+this.countIndicator+this.encodedInput, this.dataBitsCount);
-	this.bitsToMultipleOfEight=generateBitsToMultipleOfEight(this.modeIndicator+this.countIndicator+this.encodedInput+this.terminator);
-	this.bitsToMaximum=generateBitsToMaximum(this.modeIndicator+this.countIndicator+this.encodedInput+this.terminator+this.bitsToMultipleOfEight, this.dataBitsCount);
-	this.dataCodewordGroups=generateDataCodewordGroups(this.levelIndicator, this.modeIndicator+this.countIndicator+this.encodedInput+this.terminator+this.bitsToMultipleOfEight+this.bitsToMaximum, this.version);
-	this.messageCoefficientsGroups=generateMessageCoefficientsGroups(this.dataCodewordGroups);
-	this.errorCodewordsCount=chooseErrorCodewordsCount(this.levelIndicator, this.version);
-	this.generatorCoefficients=generateGeneratorCoefficients(this.errorCodewordsCount);
-	this.errorCodewordGroups=generateErrorCodewordGroups(this.messageCoefficientsGroups, this.errorCodewordsCount, this.generatorCoefficients);
-	this.interleavedDataCodewords=interleaveCodewords(this.dataCodewordGroups);
-	this.interleavedErrorCodewords=interleaveCodewords(this.errorCodewordGroups);
-	this.interleavedBinaries=generateInterleavedBinaries(this.interleavedDataCodewords, this.interleavedErrorCodewords);
-	this.remainderBits=generateRemainderBits(this.version);
+class QR{
+	constructor(level, input){
+		this.levelIndicator=chooseLevelIndicator(level);
+		this.modeIndicator=chooseModeIndicator(input);
+		this.version=chooseSmallestVersion(this.levelIndicator, this.modeIndicator, input.length);
+		this.countIndicator=generateCountIndicator(this.modeIndicator, this.version, input.length);
+		this.encodedInput=encodeInput(this.modeIndicator, input);
+		this.dataBitsCount=calculateDataBitsCount(this.levelIndicator, this.version);
+		this.terminator=generateTerminator(this.modeIndicator+this.countIndicator+this.encodedInput, this.dataBitsCount);
+		this.bitsToMultipleOfEight=generateBitsToMultipleOfEight(this.modeIndicator+this.countIndicator+this.encodedInput+this.terminator);
+		this.bitsToMaximum=generateBitsToMaximum(this.modeIndicator+this.countIndicator+this.encodedInput+this.terminator+this.bitsToMultipleOfEight, this.dataBitsCount);
+		this.dataCodewordGroups=generateDataCodewordGroups(this.levelIndicator, this.modeIndicator+this.countIndicator+this.encodedInput+this.terminator+this.bitsToMultipleOfEight+this.bitsToMaximum, this.version);
+		this.messageCoefficientsGroups=generateMessageCoefficientsGroups(this.dataCodewordGroups);
+		this.errorCodewordsCount=chooseErrorCodewordsCount(this.levelIndicator, this.version);
+		this.generatorCoefficients=generateGeneratorCoefficients(this.errorCodewordsCount);
+		this.errorCodewordGroups=generateErrorCodewordGroups(this.messageCoefficientsGroups, this.errorCodewordsCount, this.generatorCoefficients);
+		this.interleavedDataCodewords=interleaveCodewords(this.dataCodewordGroups);
+		this.interleavedErrorCodewords=interleaveCodewords(this.errorCodewordGroups);
+		this.interleavedBinaries=generateInterleavedBinaries(this.interleavedDataCodewords, this.interleavedErrorCodewords);
+		this.remainderBits=generateRemainderBits(this.version);
+	}
 }
 
 /**
@@ -896,9 +898,11 @@ function fillDataCodewordGroup(groupBlocksCount, blocksCodewordsCount, dataCodew
  * @param {number[][]|string[][]} group1 The blocks of data of the first group.
  * @param {number[][]|string[][]} group2 The blocks of data of the second group.
  */
-function Groups(group1, group2){
-	this.group1=group1;
-	this.group2=group2;
+class Groups{
+	constructor(group1, group2){
+		this.group1=group1;
+		this.group2=group2;
+	}
 }
 
 /**
@@ -1200,22 +1204,24 @@ function generateRemainderBits(version){
  * @param {string} data The data of the QR code consisting of the interleaved binary codewords and the remainder bits.
  * @param @param {string} levelIndicator The level indicator.
  */
-function Matrix(version, data, levelIndicator){
-	const reserve=true;
-	this.matrix=generateMatrix(version);
-	placeDarkModule(this.matrix, version, reserve);
-	placeSeparators(reserve, this.matrix);
-	placeAlignmentPatterns(version, reserve, this.matrix);
-	placeTimingPatterns(this.matrix, reserve);
-	reserveFormatBits(this.matrix);
-	reserveVersionBits(version, this.matrix);
-	addData(this.matrix, data);
-	this.maskedMatrizes=generateMaskedMatrizes(this.matrix, version, levelIndicator);
-	this.penaltyScores=calculatePenaltyScores(this.maskedMatrizes);
-	this.bestMask=chooseBestMask(this.penaltyScores);
-	this.draw=function(id){
+class Matrix{
+	constructor(version, data, levelIndicator){
+		const reserve=true;
+		this.matrix=generateMatrix(version);
+		placeDarkModule(this.matrix, version, reserve);
+		placeSeparators(reserve, this.matrix);
+		placeAlignmentPatterns(version, reserve, this.matrix);
+		placeTimingPatterns(this.matrix, reserve);
+		reserveFormatBits(this.matrix);
+		reserveVersionBits(version, this.matrix);
+		addData(this.matrix, data);
+		this.maskedMatrizes=generateMaskedMatrizes(this.matrix, version, levelIndicator);
+		this.penaltyScores=calculatePenaltyScores(this.maskedMatrizes);
+		this.bestMask=chooseBestMask(this.penaltyScores);
+		this.draw=function(id){
 			drawMatrix(this.maskedMatrizes[this.bestMask], id);
 			//ToDo: createSvg(this.maskedMatrizes[this.bestMask]);
+		}
 	}
 }
 
@@ -1455,7 +1461,7 @@ function generateMaskedMatrizes(matrix, version, levelIndicator){
 		placeAlignmentPatterns(version, reserve, maskedMatrizes[i]);
 		placeTimingPatterns(maskedMatrizes[i], reserve);
 		addFormatBits(levelIndicator, i, maskedMatrizes[i]);
-		addVersionBits(version);
+		//addVersionBits(version);
 	}
 
 	// The eight copies will be returned.
@@ -1535,12 +1541,25 @@ function addFormatBits(levelIndicator, maskNumber, maskedMatrix){
 	let formatBits="";
 	for(let i=0; i<formatInformation.length; i++) formatBits+=formatInformation.charAt(i)^mask.charAt(i);
 
+	let characterIndex=0;
 	for(let i=0; i<9; i++){
-		if(maskedMatrix[8][i]==MODULES.reservedState) maskedMatrix[8][i]=formatBits.charAt(i);
-		if(maskedMatrix[i][8]==MODULES.reservedState) maskedMatrix[i][8]=formatBits.charAt(i+8);
+		if(maskedMatrix[8][i]==MODULES.reservedState&&i!=6){
+			maskedMatrix[8][i]=formatBits.charAt(characterIndex);
+			characterIndex++;
+		}
+	}
+	for(let i=7; i>=0; i--){
+		if(maskedMatrix[i][8]==MODULES.reservedState&&i!=6){
+			maskedMatrix[i][8]=formatBits.charAt(characterIndex);
+			characterIndex++;
+		}
 	}
 	for(let i=0; i<7; i++) maskedMatrix[maskedMatrix[8].length-1-i][8]=formatBits.charAt(i);
-	for(let i=0; i<8; i++) maskedMatrix[8][maskedMatrix[8].length-1-i]=formatBits.charAt(i+8);
+	characterIndex=7;
+	for(let i=7; i>=0; i--){
+		maskedMatrix[8][maskedMatrix[8].length-1-i]=formatBits.charAt(characterIndex);
+		characterIndex++;
+	}
 }
 
 //ToDo
