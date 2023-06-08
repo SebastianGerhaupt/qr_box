@@ -1,0 +1,402 @@
+.container {
+  padding-top: 4rem;
+  padding-right: 8rem;
+  padding-bottom: 4rem;
+  padding-left: 8rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row + .row {
+  margin-top: 1.5rem;
+}
+
+.column-minor, .column-major, .column-12, .column-11, .column-10, .column-9, .column-8, .column-7, .column-6, .column-5, .column-4, .column-3, .column-2, .column-1 {
+  margin-right: 1.5rem;
+}
+.column-minor:last-child, .column-major:last-child, .column-12:last-child, .column-11:last-child, .column-10:last-child, .column-9:last-child, .column-8:last-child, .column-7:last-child, .column-6:last-child, .column-5:last-child, .column-4:last-child, .column-3:last-child, .column-2:last-child, .column-1:last-child {
+  margin-right: 0;
+}
+
+.column-1 {
+  width: calc(100% / (12 / 1) - 1.5rem * (12 - 1) / 12);
+}
+
+.column-2 {
+  width: calc(100% / (12 / 2) - 1.5rem * (12 - 2) / 12);
+}
+
+.column-3 {
+  width: calc(100% / (12 / 3) - 1.5rem * (12 - 3) / 12);
+}
+
+.column-4 {
+  width: calc(100% / (12 / 4) - 1.5rem * (12 - 4) / 12);
+}
+
+.column-5 {
+  width: calc(100% / (12 / 5) - 1.5rem * (12 - 5) / 12);
+}
+
+.column-6 {
+  width: calc(100% / (12 / 6) - 1.5rem * (12 - 6) / 12);
+}
+
+.column-7 {
+  width: calc(100% / (12 / 7) - 1.5rem * (12 - 7) / 12);
+}
+
+.column-8 {
+  width: calc(100% / (12 / 8) - 1.5rem * (12 - 8) / 12);
+}
+
+.column-9 {
+  width: calc(100% / (12 / 9) - 1.5rem * (12 - 9) / 12);
+}
+
+.column-10 {
+  width: calc(100% / (12 / 10) - 1.5rem * (12 - 10) / 12);
+}
+
+.column-11 {
+  width: calc(100% / (12 / 11) - 1.5rem * (12 - 11) / 12);
+}
+
+.column-12 {
+  width: calc(100% / (12 / 12) - 1.5rem * (12 - 12) / 12);
+}
+
+.column-major {
+  width: calc(61.8035512321% - 1.5rem / 2);
+}
+
+.column-minor {
+  width: calc(38.1964487679% - 1.5rem / 2);
+}
+
+.input-description {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.input-description:first-child {
+  margin-top: 0;
+}
+
+.floating-label {
+  position: relative;
+}
+
+.input {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(222, 222, 222);
+  border-radius: 5px;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-top: 15px;
+  padding-right: 7px;
+  padding-bottom: 15px;
+  padding-left: 7px;
+  transition-property: border-color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  width: 100%;
+}
+.input:focus {
+  border-color: #cd5500;
+  box-shadow: 0 0 0 5px #ff6b01;
+  outline: 0;
+}
+.input::-moz-placeholder {
+  color: transparent;
+}
+.input:-ms-input-placeholder {
+  color: transparent;
+}
+.input::placeholder {
+  color: transparent;
+}
+
+.floating-label > .input:not(:-moz-placeholder-shown) + .input-label {
+  font-size: 0.7rem;
+  top: calc(15px - 1rem);
+}
+
+.floating-label > .input:not(:-ms-input-placeholder) + .input-label {
+  font-size: 0.7rem;
+  top: calc(15px - 1rem);
+}
+
+.floating-label > .input:not(:placeholder-shown) + .input-label, .floating-label > .input:focus + .input-label {
+  font-size: 0.7rem;
+  top: calc(15px - 1rem);
+}
+
+.input-label {
+  color: #d1d1d1;
+  font-size: 1rem;
+}
+.floating-label > .input-label {
+  left: 7px;
+  position: absolute;
+  top: 15px;
+  transition-property: font-size, top;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+}
+.radio {
+  opacity: 0;
+}
+
+.custom-radio {
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(222, 222, 222);
+  border-radius: 0.25rem;
+  color: #d1d1d1;
+  display: inline-block;
+  font-size: 1rem;
+  left: -26px;
+  margin-right: calc(.5rem + -26px - 4px);
+  padding-top: 15px;
+  padding-right: 7px;
+  padding-bottom: 15px;
+  padding-left: 7px;
+  position: relative;
+  text-align: center;
+  transition-property: border-color, box-shadow, color;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  width: 48px;
+}
+.radio:checked + .custom-radio {
+  color: initial;
+}
+.radio:focus + .custom-radio {
+  border-color: #cd5500;
+  box-shadow: 0 0 0 5px #ff6b01;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+*::before {
+  box-sizing: border-box;
+}
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.subtitle {
+  border-radius: 0.25rem;
+  display: inline-block;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  margin-top: 0;
+  margin-right: calc(1.5rem - 4px);
+  margin-bottom: 0;
+  padding-right: 15px;
+  padding-left: 5px;
+  position: relative;
+  text-align: right;
+  text-transform: uppercase;
+  top: -3px;
+}
+
+.title {
+  display: inline-block;
+  font-size: 8rem;
+  margin-top: 0;
+  margin-right: -4px;
+  margin-bottom: 3rem;
+}
+
+.logo {
+  bottom: -0.75rem;
+  height: 6rem;
+  left: -0.6rem;
+  margin-right: -1rem;
+  position: relative;
+}
+
+.hero-text {
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.qr-code {
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(222, 222, 222);
+  border-radius: 0.25rem;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  overflow: auto;
+  padding: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.module {
+  float: left;
+  height: 9px;
+  width: 9px;
+}
+#qr-animation > .module {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(222, 222, 222);
+}
+
+.module-undefined {
+  background-color: rgb(47, 72, 88);
+}
+
+.module-reserved {
+  background-color: rgb(255, 149, 0);
+}
+
+.module-dark {
+  background-color: rgb(0, 0, 0);
+}
+
+.module-light {
+  background-color: rgb(255, 255, 255);
+}
+
+.break {
+  display: block;
+}
+
+/*.svg{
+	display: none;
+}*/
+.background-main-color {
+  background-color: rgb(230, 96, 0);
+  background-image: linear-gradient(to bottom right, rgb(230, 96, 0), rgb(255, 149, 0), rgb(255, 203, 0));
+}
+
+.animation-generic-gradient-3, .animation-main-color {
+  -webkit-animation-duration: 6s;
+          animation-duration: 6s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+}
+
+@-webkit-keyframes animated_background_main_color {
+  0% {
+    background-color: rgb(0, 0, 0);
+  }
+  17% {
+    background-color: rgb(230, 96, 0);
+  }
+  34% {
+    background-color: rgb(255, 149, 0);
+  }
+  50% {
+    background-color: rgb(255, 203, 0);
+  }
+  67% {
+    background-color: rgb(255, 149, 0);
+  }
+  84% {
+    background-color: rgb(230, 96, 0);
+  }
+  100% {
+    background-color: rgb(0, 0, 0);
+  }
+}
+
+@keyframes animated_background_main_color {
+  0% {
+    background-color: rgb(0, 0, 0);
+  }
+  17% {
+    background-color: rgb(230, 96, 0);
+  }
+  34% {
+    background-color: rgb(255, 149, 0);
+  }
+  50% {
+    background-color: rgb(255, 203, 0);
+  }
+  67% {
+    background-color: rgb(255, 149, 0);
+  }
+  84% {
+    background-color: rgb(230, 96, 0);
+  }
+  100% {
+    background-color: rgb(0, 0, 0);
+  }
+}
+.animation-main-color {
+  -webkit-animation-name: animated_background_main_color;
+          animation-name: animated_background_main_color;
+}
+
+@-webkit-keyframes animated_generic_gradient_3 {
+  0% {
+    background-color: rgb(0, 0, 0);
+  }
+  17% {
+    background-color: rgb(119, 79, 143);
+  }
+  34% {
+    background-color: rgb(63, 81, 124);
+  }
+  50% {
+    background-color: rgb(47, 72, 88);
+  }
+  67% {
+    background-color: rgb(63, 81, 124);
+  }
+  84% {
+    background-color: rgb(119, 79, 143);
+  }
+  100% {
+    background-color: rgb(0, 0, 0);
+  }
+}
+
+@keyframes animated_generic_gradient_3 {
+  0% {
+    background-color: rgb(0, 0, 0);
+  }
+  17% {
+    background-color: rgb(119, 79, 143);
+  }
+  34% {
+    background-color: rgb(63, 81, 124);
+  }
+  50% {
+    background-color: rgb(47, 72, 88);
+  }
+  67% {
+    background-color: rgb(63, 81, 124);
+  }
+  84% {
+    background-color: rgb(119, 79, 143);
+  }
+  100% {
+    background-color: rgb(0, 0, 0);
+  }
+}
+.animation-generic-gradient-3 {
+  -webkit-animation-name: animated_generic_gradient_3;
+          animation-name: animated_generic_gradient_3;
+}/*# sourceMappingURL=styles.css.map */
